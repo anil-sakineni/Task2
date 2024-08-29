@@ -5,25 +5,24 @@ const {
     loginEjs,
     dashboardEjs,
     createUser,
-    userLogin, 
+    userLogin,
     checkAuth,
     logOutPage,
     getUsers,
     deleteById,
-    updateUser} = require('../controllers/user');
+    updateUser } = require('../controllers/user');
+const authenticate = require('../middleware/updateAndDelete');
 const router = express.Router()
 
 router.get('/signup', registerEjs)
 router.get('/login', loginEjs)
-router.get('/welcome', authenticateToken,(req,res)=>{
-    res.json({message : "success"})
-})
+router.get('/welcome', dashboardEjs)
 router.post('/register', createUser) 
-router.post('/User-login', userLogin)
-router.post('/logout',logOutPage) 
-router.get('/get',getUsers)
-router.delete('/delete/:id', deleteById)
-router.put('/update/:id', updateUser)
+router.post('/login', userLogin)
+router.post('/logout', logOutPage)
+router.get('/get', getUsers)
+router.delete('/delete/:id',authenticate, deleteById)
+router.put('/update/:id',authenticate, updateUser)
 
 
 
